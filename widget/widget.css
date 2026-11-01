@@ -1,0 +1,257 @@
+/* Polaroid Fanart Gallery: StreamElements custom widget. Paste into the CSS tab.
+   All values below are defaults; widget.js overrides them from the fields.
+   {{captionFont}} is referenced here so StreamElements loads the Google Font. */
+
+/* Monochrome emoji glyphs, drawn in the caption color. Google serves it in unicode-range
+   subsets, so only the emoji actually used get downloaded. */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@400;700&display=swap');
+
+:root {
+  --polaroid-width: 360px;
+  --max-photo-height: 480px;
+  --frame-color: #fdfdf8;
+  --caption-color: #2b2b2b;
+  --caption-font: '{{captionFont}}';
+  --shadow-alpha: .36;
+  --transition-seconds: 1.2s;
+  --pin-color: #d7263d;
+}
+
+#gallery {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Centers a polaroid on its spot; widget.js sets left/top in px and adds down-scaling. */
+.mount {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- The polaroid ---------- */
+
+/* 1em = 1/18 of the polaroid width, so the width field scales everything. */
+.polaroid {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--polaroid-width);
+  font-size: calc(var(--polaroid-width) / 18);
+  padding: .72em .72em 0;
+  background: var(--frame-color);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, var(--shadow-alpha)),
+    0 2px 4px rgba(0, 0, 0, calc(var(--shadow-alpha) * .5));
+  transform: rotate(var(--tilt, 0deg));
+  will-change: transform, opacity;
+}
+
+.photo {
+  position: relative;
+  width: 100%;
+  max-height: var(--max-photo-height);
+  overflow: hidden;
+}
+
+/* Never crop: images taller than the cap letterbox inside the photo area. */
+.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: var(--max-photo-height);
+  object-fit: contain;
+}
+
+.strip {
+  box-sizing: border-box;
+  min-height: 3.24em;
+  padding: .35em .3em .45em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Noto Emoji goes last: it also has digits, # and * (as wide emoji glyphs), so it must
+     only catch what the text fonts lack (emoji), ahead of the system's color emoji font.
+     Before cursive, it took the digits whenever the caption font wasn't loaded (yet). */
+  font-family: var(--caption-font), 'Caveat', cursive, 'Noto Emoji';
+  color: var(--caption-color);
+  /* Tall enough for descenders (g, y, p): the lines below clip to their line boxes. */
+  line-height: 1.35;
+}
+
+.caption,
+.credit {
+  max-width: 100%;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.caption {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.credit {
+  font-size: 1em;
+}
+
+/* Artist name + handle. widget.js adds .split when they don't fit on one line: the dot
+   goes, each gets its own line, and a line still too wide gets a smaller font-size. */
+.credit.two-part {
+  display: block;
+  /* Full strip width (not shrink-to-fit), so fitted text keeps a margin for glyph overhang. */
+  align-self: stretch;
+  white-space: nowrap;
+}
+
+.credit.two-part.split .credit-sep {
+  display: none;
+}
+
+.credit.two-part.split .credit-name,
+.credit.two-part.split .credit-handle {
+  display: block;
+}
+
+/* ---------- Pin styles (class on #gallery) ---------- */
+
+.pin {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pin-none .pin {
+  display: none;
+}
+
+.pin-pushpin .pin {
+  left: 50%;
+  top: -.45em;
+  width: 1.1em;
+  height: 1.1em;
+  margin-left: -.55em;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .8) 0, rgba(255, 255, 255, 0) 45%),
+    var(--pin-color);
+  box-shadow:
+    0 .15em .25em rgba(0, 0, 0, .4),
+    inset 0 -.1em .15em rgba(0, 0, 0, .3);
+}
+
+/* Needle */
+.pin-pushpin .pin::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 85%;
+  width: 2px;
+  height: .45em;
+  margin-left: -1px;
+  background: var(--pin-color);
+  filter: brightness(.45);
+  border-radius: 0 0 1px 1px;
+}
+
+.pin-tape .pin {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+}
+
+.pin-tape .pin::before,
+.pin-tape .pin::after {
+  content: '';
+  position: absolute;
+  top: -.7em;
+  width: 34%;
+  height: 1.8em;
+  background: rgba(235, 222, 180, .75);
+  box-shadow:
+    inset 0 0 .2em rgba(120, 100, 60, .25),
+    0 1px 2px rgba(0, 0, 0, .12);
+}
+
+.pin-tape .pin::before {
+  left: -6%;
+  transform: rotate(-8deg);
+}
+
+.pin-tape .pin::after {
+  right: -6%;
+  transform: rotate(8deg);
+}
+
+/* ---------- Animations (plain keyframes + cubic-bezier: OBS 30 has no linear() easing) ---------- */
+
+.polaroid.entering {
+  animation: polaroid-pin-drop var(--transition-seconds) cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.polaroid.entering .pin {
+  animation: polaroid-pin-in var(--transition-seconds) linear both;
+}
+
+/* Declared after .entering so it wins when both classes are present. */
+.polaroid.leaving {
+  animation: polaroid-lift-fall var(--transition-seconds) cubic-bezier(.5, 0, .9, .4) both;
+}
+
+.polaroid.leaving .pin {
+  animation: polaroid-pin-out var(--transition-seconds) linear both;
+}
+
+@keyframes polaroid-pin-drop {
+  0%   { transform: translateY(-40px) rotate(var(--tilt)) scale(1.04); opacity: 0; }
+  55%  { transform: translateY(8px)   rotate(var(--tilt)) scale(.985); opacity: 1; }
+  75%  { transform: translateY(-4px)  rotate(var(--tilt)); }
+  90%  { transform: translateY(2px)   rotate(var(--tilt)); }
+  100% { transform: translateY(0)     rotate(var(--tilt)) scale(1); opacity: 1; }
+}
+
+@keyframes polaroid-pin-in {
+  0%, 70% { opacity: 0; }
+  100%    { opacity: 1; }
+}
+
+@keyframes polaroid-lift-fall {
+  0%   { transform: translateY(0)     rotate(var(--tilt)); opacity: 1; }
+  18%  { transform: translateY(-14px) rotate(var(--tilt)) scale(1.02); }
+  100% { transform: translateY(130vh) rotate(calc(var(--tilt) + 28deg)); opacity: 0; }
+}
+
+@keyframes polaroid-pin-out {
+  0%   { opacity: 1; }
+  18%, 100% { opacity: 0; }
+}
+
+/* ---------- Diagnostics (debug panel field only) ---------- */
+
+#debug-panel {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  max-width: 520px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, .72);
+  color: #e8e8e8;
+  font: 12px/1.4 Consolas, 'Courier New', monospace;
+  white-space: pre-wrap;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+#debug-panel[hidden] {
+  display: none;
+}

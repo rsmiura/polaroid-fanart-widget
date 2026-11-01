@@ -1,0 +1,849 @@
+{
+  "polaroidCount": {
+    "type": "slider",
+    "label": "Polaroids on screen",
+    "value": 1,
+    "min": 1,
+    "max": 6,
+    "step": 1,
+    "group": "Look & behavior"
+  },
+  "randomSinglePosition": {
+    "type": "checkbox",
+    "label": "Single polaroid: land in a random spot",
+    "value": false,
+    "group": "Look & behavior"
+  },
+  "maxOverlap": {
+    "type": "slider",
+    "label": "Max overlap between polaroids (%)",
+    "value": 0,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "group": "Look & behavior"
+  },
+  "polaroidWidth": {
+    "type": "number",
+    "label": "Polaroid width (px)",
+    "value": 360,
+    "min": 200,
+    "max": 800,
+    "step": 10,
+    "group": "Look & behavior"
+  },
+  "maxPhotoHeight": {
+    "type": "number",
+    "label": "Max photo height (px)",
+    "value": 480,
+    "min": 200,
+    "max": 1000,
+    "step": 10,
+    "group": "Look & behavior"
+  },
+  "rotationSeconds": {
+    "type": "number",
+    "label": "Seconds per artwork",
+    "value": 20,
+    "min": 5,
+    "max": 600,
+    "step": 1,
+    "group": "Look & behavior"
+  },
+  "transitionSeconds": {
+    "type": "number",
+    "label": "Transition length (seconds)",
+    "value": 1.2,
+    "min": 0.3,
+    "max": 4,
+    "step": 0.1,
+    "group": "Look & behavior"
+  },
+  "orderMode": {
+    "type": "dropdown",
+    "label": "Order",
+    "value": "shuffle",
+    "options": {
+      "shuffle": "Shuffle (no repeats per cycle)",
+      "slots": "Slot order"
+    },
+    "group": "Look & behavior"
+  },
+  "replaceMode": {
+    "type": "dropdown",
+    "label": "Which polaroid changes",
+    "value": "oldest",
+    "options": {
+      "oldest": "Oldest first",
+      "random": "Random"
+    },
+    "group": "Look & behavior"
+  },
+  "maxTilt": {
+    "type": "slider",
+    "label": "Max tilt (degrees)",
+    "value": 6,
+    "min": 0,
+    "max": 20,
+    "step": 1,
+    "group": "Look & behavior"
+  },
+  "frameColor": {
+    "type": "colorpicker",
+    "label": "Frame color",
+    "value": "#fdfdf8",
+    "group": "Look & behavior"
+  },
+  "captionFont": {
+    "type": "googleFont",
+    "label": "Caption font",
+    "value": "Caveat",
+    "group": "Look & behavior"
+  },
+  "captionColor": {
+    "type": "colorpicker",
+    "label": "Caption text color",
+    "value": "#2b2b2b",
+    "group": "Look & behavior"
+  },
+  "showHandle": {
+    "type": "checkbox",
+    "label": "Show artist handle",
+    "value": true,
+    "group": "Look & behavior"
+  },
+  "creditPrefix": {
+    "type": "text",
+    "label": "Text before artist name (empty = none)",
+    "value": "art by",
+    "group": "Look & behavior"
+  },
+  "pinStyle": {
+    "type": "dropdown",
+    "label": "Pin style",
+    "value": "pushpin",
+    "options": {
+      "pushpin": "Pushpin",
+      "tape": "Tape",
+      "none": "None"
+    },
+    "group": "Look & behavior"
+  },
+  "pinColor": {
+    "type": "colorpicker",
+    "label": "Pushpin color",
+    "value": "#d7263d",
+    "group": "Look & behavior"
+  },
+  "shadowStrength": {
+    "type": "slider",
+    "label": "Shadow strength",
+    "value": 60,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "group": "Look & behavior"
+  },
+  "debugPanel": {
+    "type": "checkbox",
+    "label": "Show debug panel (for troubleshooting)",
+    "value": false,
+    "group": "Look & behavior"
+  },
+  "slot01_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 01"
+  },
+  "slot01_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 01"
+  },
+  "slot01_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 01"
+  },
+  "slot01_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 01"
+  },
+  "slot01_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 01"
+  },
+  "slot02_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 02"
+  },
+  "slot02_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 02"
+  },
+  "slot02_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 02"
+  },
+  "slot02_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 02"
+  },
+  "slot02_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 02"
+  },
+  "slot03_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 03"
+  },
+  "slot03_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 03"
+  },
+  "slot03_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 03"
+  },
+  "slot03_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 03"
+  },
+  "slot03_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 03"
+  },
+  "slot04_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 04"
+  },
+  "slot04_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 04"
+  },
+  "slot04_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 04"
+  },
+  "slot04_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 04"
+  },
+  "slot04_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 04"
+  },
+  "slot05_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 05"
+  },
+  "slot05_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 05"
+  },
+  "slot05_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 05"
+  },
+  "slot05_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 05"
+  },
+  "slot05_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 05"
+  },
+  "slot06_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 06"
+  },
+  "slot06_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 06"
+  },
+  "slot06_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 06"
+  },
+  "slot06_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 06"
+  },
+  "slot06_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 06"
+  },
+  "slot07_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 07"
+  },
+  "slot07_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 07"
+  },
+  "slot07_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 07"
+  },
+  "slot07_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 07"
+  },
+  "slot07_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 07"
+  },
+  "slot08_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 08"
+  },
+  "slot08_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 08"
+  },
+  "slot08_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 08"
+  },
+  "slot08_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 08"
+  },
+  "slot08_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 08"
+  },
+  "slot09_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 09"
+  },
+  "slot09_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 09"
+  },
+  "slot09_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 09"
+  },
+  "slot09_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 09"
+  },
+  "slot09_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 09"
+  },
+  "slot10_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 10"
+  },
+  "slot10_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 10"
+  },
+  "slot10_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 10"
+  },
+  "slot10_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 10"
+  },
+  "slot10_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 10"
+  },
+  "slot11_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 11"
+  },
+  "slot11_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 11"
+  },
+  "slot11_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 11"
+  },
+  "slot11_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 11"
+  },
+  "slot11_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 11"
+  },
+  "slot12_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 12"
+  },
+  "slot12_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 12"
+  },
+  "slot12_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 12"
+  },
+  "slot12_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 12"
+  },
+  "slot12_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 12"
+  },
+  "slot13_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 13"
+  },
+  "slot13_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 13"
+  },
+  "slot13_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 13"
+  },
+  "slot13_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 13"
+  },
+  "slot13_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 13"
+  },
+  "slot14_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 14"
+  },
+  "slot14_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 14"
+  },
+  "slot14_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 14"
+  },
+  "slot14_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 14"
+  },
+  "slot14_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 14"
+  },
+  "slot15_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 15"
+  },
+  "slot15_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 15"
+  },
+  "slot15_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 15"
+  },
+  "slot15_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 15"
+  },
+  "slot15_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 15"
+  },
+  "slot16_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 16"
+  },
+  "slot16_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 16"
+  },
+  "slot16_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 16"
+  },
+  "slot16_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 16"
+  },
+  "slot16_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 16"
+  },
+  "slot17_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 17"
+  },
+  "slot17_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 17"
+  },
+  "slot17_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 17"
+  },
+  "slot17_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 17"
+  },
+  "slot17_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 17"
+  },
+  "slot18_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 18"
+  },
+  "slot18_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 18"
+  },
+  "slot18_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 18"
+  },
+  "slot18_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 18"
+  },
+  "slot18_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 18"
+  },
+  "slot19_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 19"
+  },
+  "slot19_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 19"
+  },
+  "slot19_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 19"
+  },
+  "slot19_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 19"
+  },
+  "slot19_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 19"
+  },
+  "slot20_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 20"
+  },
+  "slot20_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 20"
+  },
+  "slot20_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 20"
+  },
+  "slot20_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 20"
+  },
+  "slot20_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 20"
+  },
+  "slot21_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 21"
+  },
+  "slot21_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 21"
+  },
+  "slot21_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 21"
+  },
+  "slot21_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 21"
+  },
+  "slot21_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 21"
+  },
+  "slot22_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 22"
+  },
+  "slot22_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 22"
+  },
+  "slot22_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 22"
+  },
+  "slot22_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 22"
+  },
+  "slot22_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 22"
+  },
+  "slot23_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 23"
+  },
+  "slot23_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 23"
+  },
+  "slot23_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 23"
+  },
+  "slot23_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 23"
+  },
+  "slot23_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 23"
+  },
+  "slot24_image": {
+    "type": "image-input",
+    "label": "Image",
+    "group": "Artwork 24"
+  },
+  "slot24_artist": {
+    "type": "text",
+    "label": "Artist name",
+    "value": "",
+    "group": "Artwork 24"
+  },
+  "slot24_handle": {
+    "type": "text",
+    "label": "Handle (e.g. @name on X)",
+    "value": "",
+    "group": "Artwork 24"
+  },
+  "slot24_caption": {
+    "type": "text",
+    "label": "Caption (optional)",
+    "value": "",
+    "group": "Artwork 24"
+  },
+  "slot24_show": {
+    "type": "checkbox",
+    "label": "Show this artwork",
+    "value": true,
+    "group": "Artwork 24"
+  }
+}

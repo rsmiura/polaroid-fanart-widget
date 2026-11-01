@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polaroid Widget Preview</title>
+  <link id="font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../widget/widget.css">
+  <style>
+    html, body { margin: 0; height: 100%; }
+    body {
+      display: flex;
+      font: 13px/1.4 system-ui, sans-serif;
+      background: #1b1b1f;
+      color: #ddd;
+    }
+    #controls {
+      flex: 0 0 270px;
+      overflow-y: auto;
+      padding: 12px 14px;
+      background: #26262c;
+      border-right: 1px solid #333;
+      box-sizing: border-box;
+    }
+    #controls h1 { font-size: 15px; margin: 0 0 4px; }
+    #controls h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #999; margin: 16px 0 6px; }
+    #controls label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0; }
+    #controls input[type="number"], #controls input[type="text"], #controls select { width: 110px; box-sizing: border-box; }
+    #controls input[type="range"] { width: 90px; }
+    #controls .val { width: 26px; text-align: right; color: #aaa; }
+    #controls button { margin: 4px 4px 0 0; padding: 5px 10px; }
+    #stats { margin-top: 12px; color: #999; font-size: 12px; }
+    #viewport { flex: 1; overflow: auto; padding: 24px; }
+    /* Stands in for the widget box the streamer drags out in the overlay editor. */
+    #stage {
+      position: relative;
+      outline: 1px dashed rgba(255, 255, 255, .35);
+    }
+    #stage.bg-cork {
+      background-color: #b98a5a;
+      background-image:
+        radial-gradient(rgba(70, 40, 10, .25) 1px, transparent 1.5px),
+        radial-gradient(rgba(255, 230, 190, .18) 1px, transparent 1.5px);
+      background-size: 7px 7px, 11px 11px;
+    }
+    #stage.bg-checker {
+      background: repeating-conic-gradient(#3a3a40 0 25%, #2e2e33 0 50%) 0 0 / 24px 24px;
+    }
+    #stage.bg-dark { background: #101012; }
+  </style>
+</head>
+<body>
+  <aside id="controls">
+    <h1>Polaroid widget preview</h1>
+    <div>Fakes the StreamElements runtime. Every change re-dispatches <code>onWidgetLoad</code>.</div>
+
+    <h2>Widget box</h2>
+    <label>Width (px) <input id="boxW" type="number" min="200" max="3840" step="10" value="1280"></label>
+    <label>Height (px) <input id="boxH" type="number" min="200" max="2160" step="10" value="720"></label>
+    <label>Background
+      <select id="bg">
+        <option value="cork">Corkboard</option>
+        <option value="checker">Transparent</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+
+    <h2>Look &amp; behavior</h2>
+    <div id="fields"></div>
+
+    <h2>Actions</h2>
+    <button id="next">Next</button>
+    <button id="reload">Re-dispatch</button>
+    <button id="reset">Reset sample data</button>
+    <div id="stats"></div>
+  </aside>
+
+  <main id="viewport">
+    <div id="stage" class="bg-cork">
+      <!-- Same as widget/widget.html -->
+      <div id="gallery"></div>
+      <div id="debug-panel" hidden></div>
+    </div>
+  </main>
+
+  <script>
+    // Minimal fake of the StreamElements API the widget touches.
+    window.SE_API = {
+      getOverlayStatus: () => Promise.resolve({ isEditorMode: true }),
+    };
+  </script>
+  <script src="../widget/widget.js"></script>
+  <script>
+    const CONTROLS = [
+      { key: 'polaroidCount', label: 'Polaroids on screen', type: 'range', min: 1, max: 6, step: 1 },
+      { key: 'randomSinglePosition', label: 'Single: random spot', type: 'checkbox' },
+      { key: 'maxOverlap', label: 'Max overlap %', type: 'range', min: 0, max: 100, step: 5 },
+      { key: 'polaroidWidth', label: 'Width (px)', type: 'number', min: 200, max: 800, step: 10 },
+      { key: 'maxPhotoHeight', label: 'Max photo height', type: 'number', min: 200, max: 1000, step: 10 },
+      { key: 'rotationSeconds', label: 'Seconds per artwork', type: 'number', min: 5, max: 600, step: 1 },
+      { key: 'transitionSeconds', label: 'Transition (s)', type: 'number', min: 0.3, max: 4, step: 0.1 },
+      { key: 'orderMode', label: 'Order', type: 'select', options: { shuffle: 'Shuffle', slots: 'Slot order' } },
+      { key: 'replaceMode', label: 'Which changes', type: 'select', options: { oldest: 'Oldest first', random: 'Random' } },
+      { key: 'maxTilt', label: 'Max tilt', type: 'range', min: 0, max: 20, step: 1 },
+      { key: 'pinStyle', label: 'Pin style', type: 'select', options: { pushpin: 'Pushpin', tape: 'Tape', none: 'None' } },
+      { key: 'pinColor', label: 'Pushpin color', type: 'color' },
+      { key: 'frameColor', label: 'Frame color', type: 'color' },
+      { key: 'captionColor', label: 'Caption color', type: 'color' },
+      { key: 'captionFont', label: 'Caption font', type: 'text' },
+      { key: 'showHandle', label: 'Show handle', type: 'checkbox' },
+      { key: 'creditPrefix', label: 'Text before name', type: 'text' },
+      { key: 'shadowStrength', label: 'Shadow strength', type: 'range', min: 0, max: 100, step: 5 },
+      { key: 'debugPanel', label: 'Debug panel', type: 'checkbox' },
+    ];
+
+    let sample = null;
+    let fieldData = null;
+
+    function dispatch() {
+      window.dispatchEvent(new CustomEvent('onWidgetLoad', { detail: { fieldData } }));
+    }
+
+    function loadFont(name) {
+      const family = encodeURIComponent(name).replace(/%20/g, '+');
+      document.getElementById('font-link').href =
+        `https://fonts.googleapis.com/css2?family=${family}:wght@400;700&display=swap`;
+    }
+
+    function buildControls() {
+      const host = document.getElementById('fields');
+      host.textContent = '';
+      for (const c of CONTROLS) {
+        const label = document.createElement('label');
+        label.append(c.label);
+        let input;
+        if (c.type === 'select') {
+          input = document.createElement('select');
+          for (const [value, text] of Object.entries(c.options)) input.add(new Option(text, value));
+          input.value = fieldData[c.key];
+        } else {
+          input = document.createElement('input');
+          input.type = c.type;
+          ['min', 'max', 'step'].forEach((k) => { if (c[k] !== undefined) input[k] = c[k]; });
+          if (c.type === 'checkbox') input.checked = !!fieldData[c.key];
+          else input.value = fieldData[c.key];
+        }
+        let val = null;
+        if (c.type === 'range') {
+          val = document.createElement('span');
+          val.className = 'val';
+          val.textContent = input.value;
+        }
+        input.addEventListener('change', () => {
+          let v = input.value;
+          if (c.type === 'checkbox') v = input.checked;
+          else if (c.type === 'number' || c.type === 'range') v = Number(v);
+          fieldData[c.key] = v;
+          if (val) val.textContent = input.value;
+          if (c.key === 'captionFont') loadFont(v);
+          dispatch();
+        });
+        if (val) {
+          const wrap = document.createElement('span');
+          wrap.append(input, val);
+          label.append(wrap);
+        } else {
+          label.append(input);
+        }
+        host.append(label);
+      }
+    }
+
+    function applyBox() {
+      const stage = document.getElementById('stage');
+      stage.style.width = `${document.getElementById('boxW').value}px`;
+      stage.style.height = `${document.getElementById('boxH').value}px`;
+    }
+
+    // Field overrides from the URL, e.g. preview.html?polaroidCount=6&pinStyle=tape
+    function queryOverrides() {
+      const over = {};
+      new URLSearchParams(location.search).forEach((v, k) => {
+        if (!(k in sample)) return;
+        const kind = typeof sample[k];
+        over[k] = kind === 'number' ? Number(v) : kind === 'boolean' ? v === 'true' : v;
+      });
+      return over;
+    }
+
+    function reset() {
+      fieldData = Object.assign(JSON.parse(JSON.stringify(sample)), queryOverrides());
+      buildControls();
+      loadFont(fieldData.captionFont);
+      dispatch();
+    }
+
+    document.getElementById('boxW').addEventListener('input', applyBox);
+    document.getElementById('boxH').addEventListener('input', applyBox);
+    document.getElementById('bg').addEventListener('change', (e) => {
+      document.getElementById('stage').className = `bg-${e.target.value}`;
+    });
+    document.getElementById('next').addEventListener('click', () => window.PolaroidWidget.tick());
+    document.getElementById('reload').addEventListener('click', dispatch);
+    document.getElementById('reset').addEventListener('click', reset);
+
+    // Live DOM count, to confirm exited polaroids are removed.
+    setInterval(() => {
+      document.getElementById('stats').textContent =
+        `Polaroid elements in DOM: ${document.querySelectorAll('#gallery .polaroid').length}`;
+    }, 500);
+
+    applyBox();
+    fetch('sample-fielddata.json')
+      .then((res) => res.json())
+      .then((data) => {
+        sample = data;
+        reset();
+      })
+      .catch((err) => {
+        document.getElementById('stats').textContent =
+          `Could not load sample-fielddata.json (${err}). Serve the repo with a static server instead of file://.`;
+      });
+  </script>
+</body>
+</html>

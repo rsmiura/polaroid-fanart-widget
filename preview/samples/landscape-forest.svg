@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#95d5b2"/>
+      <stop offset="1" stop-color="#2d6a4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#g)"/>
+  <circle cx="870" cy="230" r="130" fill="#fff" fill-opacity=".55"/>
+  <path d="M0 562 L384 396 L704 518 L1024 360 L1280 475 L1280 720 L0 720 Z" fill="#000" fill-opacity=".28"/>
+  <rect x="6" y="6" width="1268" height="708" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="4" stroke-dasharray="18 12"/>
+  <text x="640" y="648" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="54" fill="#fff">LANDSCAPE 16:9 · 1280×720</text>
+</svg>
